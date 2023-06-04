@@ -1,4 +1,5 @@
-﻿using backend.Mdl;
+﻿using backend.Data;
+using backend.Mdl;
 using Microsoft.AspNetCore.Mvc;
 using System.Xml.Linq;
 
@@ -26,16 +27,16 @@ namespace backend.Controllers
         }
 
 
-        //[HttpPost(Name = "Funcionario")]
-        //public Funcionario Create()
-        //{
-        //    //return null;
-        //    return new Funcionario()
-        //    {
-        //        Nome = "Renan",
-        //        VinculoEmpregaticio = Enums.VinculoEmpregaticio.SocioAdministrador
-        //    };
-        //}
+        [HttpPost(Name = "Funcionario")]
+        public Funcionario Create(Funcionario funcionario)
+        {
+            using(var db = new DataContext())
+            {
+                db.Add(funcionario);
+                db.SaveChanges();
+                return funcionario;
+            }
+        }
 
     }
 }
