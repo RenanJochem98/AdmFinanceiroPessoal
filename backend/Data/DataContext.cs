@@ -9,6 +9,11 @@ namespace backend.Data
         public DataContext() { }
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseNpgsql(SvcAppSettings.GetConnectionString());
+        }
+
         public DbSet<Funcionario> Funcionarios { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
