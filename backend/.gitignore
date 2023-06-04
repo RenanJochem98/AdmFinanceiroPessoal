@@ -1,6 +1,7 @@
 .vs/
 bin/
 obj/*
-#Pas docker abaixo eh criada pelo Docker compose do banco de dados
+#Pasta docker abaixo eh criada pelo Docker compose do banco de dados
 docker/
 Migrations/
+backend.csproj.user

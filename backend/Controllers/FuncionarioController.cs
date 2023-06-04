@@ -16,13 +16,26 @@ namespace backend.Controllers
         [HttpGet(Name = "Funcionario")]
         public Funcionario Get()
         {
-            //return null;
-            return new Funcionario()
+            using(var db = new Data.DataContext())
             {
-                Nome = "Renan",
-                VinculoEmpregaticio = Enums.VinculoEmpregaticio.SocioAdministrador
-            };
+                Funcionario func = db.Funcionarios.AsQueryable()
+                    .Where(f => f.VinculoEmpregaticio == Enums.VinculoEmpregaticio.SocioAdministrador)
+                    .First();
+                return func;
+            }
         }
+
+
+        //[HttpPost(Name = "Funcionario")]
+        //public Funcionario Create()
+        //{
+        //    //return null;
+        //    return new Funcionario()
+        //    {
+        //        Nome = "Renan",
+        //        VinculoEmpregaticio = Enums.VinculoEmpregaticio.SocioAdministrador
+        //    };
+        //}
 
     }
 }
