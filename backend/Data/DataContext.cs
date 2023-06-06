@@ -1,10 +1,12 @@
 ﻿using backend.Mdl;
 using backend.Svc;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Data
 {
-    public class DataContext : DbContext
+    public class DataContext : IdentityDbContext<IdentityUser, IdentityRole, string>
     {
         public DataContext() { }
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }

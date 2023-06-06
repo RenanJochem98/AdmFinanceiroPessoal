@@ -1,6 +1,8 @@
 using backend.Data;
 using backend.Svc;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +14,17 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddEntityFrameworkNpgsql()
     .AddDbContext<DataContext>(options => options.UseNpgsql(SvcAppSettings.GetConnectionString()));
+
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(
+    options =>
+    {
+        options.SignIn.RequireConfirmedAccount = true;
+        options.Password.RequireDigit = false;
+        options.Password.RequiredLength = 6;
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequireUppercase = false;
+        options.Password.RequireLowercase = false;
+    }).AddEntityFrameworkStores<DataContext>();
 
 var app = builder.Build();
 
