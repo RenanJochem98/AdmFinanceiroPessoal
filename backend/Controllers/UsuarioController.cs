@@ -20,25 +20,39 @@ namespace backend.Controllers
         }
 
         [HttpPost(Name = "Usuario")]
-        public async Task<UsuarioResponseViewModel> Create(UsuarioRequestViewModel usuario)
+        public async Task<IActionResult> Create(UsuarioRequestViewModel usuario)
         {
-            if (ModelState.IsValid)
+            try
             {
-                IdentityUser novoUsuario = new IdentityUser()
+                IdentityUser? usuarioJaExistente = await _userManager.FindByEmailAsync(usuario.Email);
+                if (usuarioJaExistente != null)
                 {
-                    UserName = usuario.Nome,
-                    Email = usuario.Email,
-                };
-                IdentityResult resultado = await _userManager.CreateAsync(novoUsuario, usuario.Senha);
-                UsuarioResponseViewModel resposta = new UsuarioResponseViewModel()
+                    return BadRequest("Já existe um usuário com esse email.");
+                }
+                if (ModelState.IsValid)
                 {
-                    Id = novoUsuario.Id,
-                    Nome = novoUsuario.UserName,
-                    Email = novoUsuario.Email
-                };
-                return resposta;
+                    IdentityUser novoUsuario = new IdentityUser()
+                    {
+                        UserName = usuario.Nome,
+                        Email = usuario.Email,
+                    };
+
+                    IdentityResult resultado = await _userManager.CreateAsync(novoUsuario, usuario.Senha);
+
+                    UsuarioResponseViewModel resposta = new UsuarioResponseViewModel()
+                    {
+                        Id = novoUsuario.Id,
+                        Nome = novoUsuario.UserName,
+                        Email = novoUsuario.Email
+                    };
+                    return Ok(resposta);
+                }
+                return BadRequest(ModelState);
             }
-            return null;
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
         }
     }
 }
