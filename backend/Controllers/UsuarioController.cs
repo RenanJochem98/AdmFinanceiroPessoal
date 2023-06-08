@@ -29,6 +29,15 @@ namespace backend.Controllers
                 {
                     return BadRequest("Já existe um usuário com esse email.");
                 }
+                
+                var validadorSenha = new PasswordValidator<IdentityUser>();
+                var resultadoValidacaoSenha = await validadorSenha.ValidateAsync(_userManager, null, usuario.Senha);
+                
+                if (!resultadoValidacaoSenha.Succeeded)
+                {
+                    return BadRequest(resultadoValidacaoSenha);
+                }
+                
                 if (ModelState.IsValid)
                 {
                     IdentityUser novoUsuario = new IdentityUser()
