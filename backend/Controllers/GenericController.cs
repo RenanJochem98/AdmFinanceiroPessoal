@@ -15,7 +15,7 @@ namespace backend.Controllers
         public DataContext DataContext { get; set; } = new DataContext();
         public abstract DbSet<TModel> Repositorio { get; }
 
-        [HttpGet("id:{{int}}")]
+        [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
             TModel? func = Repositorio.AsQueryable()
