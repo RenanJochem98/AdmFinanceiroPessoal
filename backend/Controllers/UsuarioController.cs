@@ -1,4 +1,5 @@
-﻿using backend.Data;
+﻿using AutoMapper;
+using backend.Data;
 using backend.Dto;
 using backend.Mdl;
 using backend.ViewModel;
@@ -14,9 +15,11 @@ namespace backend.Controllers
     public class UsuarioController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
-        public UsuarioController(UserManager<IdentityUser> userManger)
+        private readonly IMapper mapper;
+        public UsuarioController(UserManager<IdentityUser> userManger, IMapper mapper)
         {
             _userManager = userManger;
+            this.mapper = mapper;
         }
 
         [HttpPost(Name = "Usuario")]
@@ -40,20 +43,21 @@ namespace backend.Controllers
                 
                 if (ModelState.IsValid)
                 {
-                    IdentityUser novoUsuario = new IdentityUser()
-                    {
-                        UserName = usuario.Nome,
-                        Email = usuario.Email,
-                    };
+                    IdentityUser novoUsuario = mapper.Map<IdentityUser>(usuario);
+                    //IdentityUser novoUsuario = new IdentityUser()
+                    //{
+                    //    UserName = usuario.Nome,
+                    //    Email = usuario.Email,
+                    //};
 
                     IdentityResult resultado = await _userManager.CreateAsync(novoUsuario, usuario.Senha);
-
-                    UsuarioResponseViewModel resposta = new UsuarioResponseViewModel()
-                    {
-                        Id = novoUsuario.Id,
-                        Nome = novoUsuario.UserName,
-                        Email = novoUsuario.Email
-                    };
+                    UsuarioResponseViewModel resposta = mapper.Map<UsuarioResponseViewModel>(novoUsuario);
+                    //UsuarioResponseViewModel resposta = new UsuarioResponseViewModel()
+                    //{
+                    //    Id = novoUsuario.Id,
+                    //    Nome = novoUsuario.UserName,
+                    //    Email = novoUsuario.Email
+                    //};
                     return Ok(resposta);
                 }
                 return BadRequest(ModelState);

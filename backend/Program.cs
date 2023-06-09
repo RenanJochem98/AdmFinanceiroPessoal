@@ -2,7 +2,7 @@ using backend.Data;
 using backend.Svc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
+using backend.AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +14,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddEntityFrameworkNpgsql()
     .AddDbContext<DataContext>(options => options.UseNpgsql(SvcAppSettings.GetConnectionString()));
+
+builder.Services.AddAutoMapper(typeof(AutoMapperConfig));
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(
     options =>
@@ -27,7 +29,6 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(
     }).AddEntityFrameworkStores<DataContext>();
 
 var app = builder.Build();
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
