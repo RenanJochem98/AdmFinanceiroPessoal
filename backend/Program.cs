@@ -3,6 +3,7 @@ using backend.Svc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using backend.AutoMapper;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +12,20 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddSwaggerGen(setup => setup.SwaggerDoc("v1", new OpenApiInfo()
+{
+    Description = "API criada para copntrole de finaças pessoais",
+    Title = "Adm Financeiro Pessoal",
+    Version = "v1",
+    Contact = new OpenApiContact()
+    {
+        Name = "Renan Jochem",
+        Email = "renan@teste.com",
+        Url = new Uri("https://renan.com")
+    }
+}));
+
 builder.Services.AddEntityFrameworkNpgsql()
     .AddDbContext<DataContext>(options => options.UseNpgsql(SvcAppSettings.GetConnectionString()));
 

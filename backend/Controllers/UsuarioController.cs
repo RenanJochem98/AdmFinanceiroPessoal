@@ -10,6 +10,9 @@ using System.Net.Http;
 
 namespace backend.Controllers
 {
+    /// <summary>
+    /// Teste de descrição para swagger
+    /// </summary>
     [ApiController]
     [Route("[controller]")]
     public class UsuarioController : Controller
@@ -27,7 +30,7 @@ namespace backend.Controllers
         {
             try
             {
-                IdentityUser? usuarioJaExistente = await _userManager.FindByEmailAsync(usuario.Email);
+                IdentityUser? usuarioJaExistente = await _userManager.FindByEmailAsync(_userManager.NormalizeEmail(usuario.Email));
                 if (usuarioJaExistente != null)
                 {
                     return BadRequest("Já existe um usuário com esse email.");
