@@ -18,29 +18,51 @@ namespace backend.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            TModel? func = Repositorio.AsQueryable()
+            TModel? item = Repositorio.AsQueryable()
                 .SingleOrDefault(i => i.Id.Equals(id));
 
-            return func == null ?
+            return item == null ?
                 NotFound() :
-                Ok(func);
+                Ok(item);
         }
 
         [HttpGet()]
         public IActionResult Get()
         {
+            //Como adicionar parametros para executar condições de busca
             return Ok(Repositorio.AsQueryable().ToList());
         }
 
         [HttpPost()]
         public IActionResult Create(TModel item)
         {
-            using (var db = new DataContext())
+            Repositorio.Add(item);
+            this.DataContext.SaveChanges();
+            return Ok(item);
+        }
+
+        [HttpPut()]
+        public IActionResult Put(TModel item)
+        {
+            //Como alterar apenas os campos enviados
+            Repositorio.Update(item);
+            DataContext.SaveChanges();
+            return Ok(item);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            TModel? item = Repositorio.AsQueryable()
+               .SingleOrDefault(i => i.Id.Equals(id));
+            if (item == null)
             {
-                Repositorio.Add(item);
-                db.SaveChanges();
-                return Ok(item);
+                return NotFound();
             }
+
+            Repositorio.Remove(item);
+            DataContext.SaveChanges();
+            return Ok();
         }
     }
 }
