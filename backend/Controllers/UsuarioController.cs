@@ -91,6 +91,7 @@ namespace backend.Controllers
                 UsuarioLoginResponseViewModel resultado = new UsuarioLoginResponseViewModel()
                 {
                     Token = SvcToken.GerarToken(usuario),
+                    RefreshToken = SvcToken.GerarRefreshToken(usuario),
                     Usuario = mapper.Map<UsuarioResponseViewModel>(usuario)
                 };
                 return Ok(resultado);
