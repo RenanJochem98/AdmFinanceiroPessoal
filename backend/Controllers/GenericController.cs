@@ -1,6 +1,7 @@
 ﻿using backend.Data;
 using backend.Interfaces;
 using backend.Mdl;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -9,6 +10,7 @@ using System;
 namespace backend.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("[controller]")]
     public abstract class GenericController<TModel> : Controller where TModel : class, IModel
     {

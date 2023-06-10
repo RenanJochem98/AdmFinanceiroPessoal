@@ -17,5 +17,10 @@
         {
             return configuration.GetSection("ConnectionStrings").GetSection("postgres").Value!;
         }
+        public static string GetJwtTokenKey()
+        {
+            return "1234456678891234567778";
+            //return configuration.GetSection("JwtTokenKey").Value!;
+        }
     }
 }

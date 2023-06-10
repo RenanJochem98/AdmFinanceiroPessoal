@@ -2,7 +2,9 @@
 using backend.Data;
 using backend.Dto;
 using backend.Mdl;
+using backend.Svc;
 using backend.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -13,7 +15,7 @@ namespace backend.Controllers
     /// <summary>
     /// Teste de descrição para swagger
     /// </summary>
-    [ApiController]
+    [ApiController, Authorize]
     [Route("[controller]")]
     public class UsuarioController : Controller
     {
@@ -25,7 +27,7 @@ namespace backend.Controllers
             this.mapper = mapper;
         }
 
-        [HttpPost(Name = "Usuario")]
+        [HttpPost(Name = "Usuario"), AllowAnonymous]
         public async Task<IActionResult> Create(UsuarioRequestViewModel usuario)
         {
             try
@@ -35,15 +37,15 @@ namespace backend.Controllers
                 {
                     return BadRequest("Já existe um usuário com esse email.");
                 }
-                
+
                 var validadorSenha = new PasswordValidator<IdentityUser>();
                 var resultadoValidacaoSenha = await validadorSenha.ValidateAsync(_userManager, null, usuario.Senha);
-                
+
                 if (!resultadoValidacaoSenha.Succeeded)
                 {
                     return BadRequest(resultadoValidacaoSenha);
                 }
-                
+
                 if (ModelState.IsValid)
                 {
                     IdentityUser novoUsuario = mapper.Map<IdentityUser>(usuario);
@@ -54,14 +56,19 @@ namespace backend.Controllers
                     //};
 
                     IdentityResult resultado = await _userManager.CreateAsync(novoUsuario, usuario.Senha);
-                    UsuarioResponseViewModel resposta = mapper.Map<UsuarioResponseViewModel>(novoUsuario);
-                    //UsuarioResponseViewModel resposta = new UsuarioResponseViewModel()
-                    //{
-                    //    Id = novoUsuario.Id,
-                    //    Nome = novoUsuario.UserName,
-                    //    Email = novoUsuario.Email
-                    //};
-                    return Ok(resposta);
+                    if (resultado.Succeeded)
+                    {
+                        UsuarioResponseViewModel resposta = mapper.Map<UsuarioResponseViewModel>(novoUsuario);
+                        //UsuarioResponseViewModel resposta = new UsuarioResponseViewModel()
+                        //{
+                        //    Id = novoUsuario.Id,
+                        //    Nome = novoUsuario.UserName,
+                        //    Email = novoUsuario.Email
+                        //};
+                        return Ok(resposta);
+
+                    }
+                    return BadRequest(resultado);
                 }
                 return BadRequest(ModelState);
             }
@@ -70,5 +77,27 @@ namespace backend.Controllers
                 return Problem(ex.Message);
             }
         }
+
+        [HttpPost("login"), AllowAnonymous]
+        public async Task<IActionResult> Login(UsuarioLoginRequestViewModel usuarioLogin)
+        {
+            IdentityUser? usuario = await _userManager.FindByEmailAsync(_userManager.NormalizeEmail(usuarioLogin.Email));
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+            if (await _userManager.CheckPasswordAsync(usuario, usuarioLogin.Senha))
+            {
+                UsuarioLoginResponseViewModel resultado = new UsuarioLoginResponseViewModel()
+                {
+                    Token = SvcToken.GerarToken(usuario),
+                    Usuario = mapper.Map<UsuarioResponseViewModel>(usuario)
+                };
+                return Ok(resultado);
+            }
+            return Unauthorized("Usuário ou senha inválido.");
+
+        }
+
     }
 }
