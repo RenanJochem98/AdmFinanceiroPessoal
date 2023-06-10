@@ -18,7 +18,7 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(setup => setup.SwaggerDoc("v1", new OpenApiInfo()
 {
-    Description = "API criada para copntrole de finaças pessoais",
+    Description = "API criada para copntrole de finanças pessoais",
     Title = "Adm Financeiro Pessoal",
     Version = "v1",
     Contact = new OpenApiContact()

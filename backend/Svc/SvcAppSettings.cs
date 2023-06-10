@@ -19,8 +19,7 @@
         }
         public static string GetJwtTokenKey()
         {
-            return "1234456678891234567778";
-            //return configuration.GetSection("JwtTokenKey").Value!;
+            return configuration.GetSection("JwtAuthOptions").GetSection("JwtTokenKey").Value!;
         }
     }
 }
