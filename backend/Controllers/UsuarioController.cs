@@ -20,9 +20,8 @@ namespace backend.Controllers
     public class UsuarioController : GenericController<UsuarioRequestViewModel, UsuarioResponseViewModel, Usuario>
     {
         private readonly UserManager<Usuario> _userManager;
-        public override DbSet<Usuario> Repositorio => DataContext.Users;
 
-        public UsuarioController(UserManager<Usuario> userManger, IMapper mapper) : base(mapper)
+        public UsuarioController(UserManager<Usuario> userManger, IMapper mapper, DataContext dataContext) : base(mapper, dataContext)
         {
             _userManager = userManger;
         }

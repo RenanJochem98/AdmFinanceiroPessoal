@@ -14,17 +14,8 @@ namespace backend.Controllers
     [Route("[controller]")]
     public class FuncionarioController : GenericController<FuncionarioViewModelRequest, FuncionarioViewModelResponse, Funcionario>
     {
-        public FuncionarioController(IMapper mapper) : base(mapper)
+        public FuncionarioController(IMapper mapper, DataContext dataContext) : base(mapper, dataContext)
         {
         }
-
-        public override DbSet<Funcionario> Repositorio
-        {
-            get
-            {
-                return this.DataContext.Funcionarios;
-            }
-        }
-
     }
 }

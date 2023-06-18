@@ -16,19 +16,21 @@ namespace backend.Controllers
     [Route("[controller]")]
     public abstract class GenericController<TViewModelRequest, TViewModelResponse, TModel> : Controller where TModel : class, IModel
     {
-        public DataContext DataContext { get; set; } = new DataContext();
-        public abstract DbSet<TModel> Repositorio { get; }
-        public IMapper mapper;
+        protected DbSet<TModel> repositorio;
+        protected IMapper mapper;
+        protected DataContext dataContext;
 
-        public GenericController(IMapper mapper)
+        public GenericController(IMapper mapper, DataContext dataContext)
         {
             this.mapper = mapper;
+            this.dataContext = dataContext;
+            this.repositorio = dataContext.Set<TModel>();
         }
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            TModel? item = Repositorio.AsQueryable()
+            TModel? item = repositorio.AsQueryable()
                 .SingleOrDefault(i => i.Id.Equals(id));
 
             return item == null ?
@@ -40,15 +42,15 @@ namespace backend.Controllers
         public IActionResult Get()
         {
             //Como adicionar parametros para executar condições de busca?
-            return Ok(mapper.Map<IEnumerable<TViewModelResponse>>(Repositorio.AsQueryable().AsEnumerable()));
+            return Ok(mapper.Map<IEnumerable<TViewModelResponse>>(repositorio.AsQueryable().AsEnumerable()));
         }
 
         [HttpPost()]
         public virtual IActionResult Create(TViewModelRequest item)
         {
             TModel modelo = mapper.Map<TModel>(item);
-            Repositorio.Add(modelo);
-            this.DataContext.SaveChanges();
+            repositorio.Add(modelo);
+            this.dataContext.SaveChanges();
             return Ok(mapper.Map<TViewModelResponse>(item));
         }
 
@@ -57,23 +59,23 @@ namespace backend.Controllers
         {
             //Como alterar apenas os campos enviados
             TModel modelo = mapper.Map<TModel>(item);
-            Repositorio.Update(modelo);
-            this.DataContext.SaveChanges();
+            repositorio.Update(modelo);
+            this.dataContext.SaveChanges();
             return Ok(mapper.Map<TViewModelResponse>(item));
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            TModel? item = Repositorio.AsQueryable()
+            TModel? item = repositorio.AsQueryable()
                .SingleOrDefault(i => i.Id.Equals(id));
             if (item == null)
             {
                 return NotFound();
             }
 
-            Repositorio.Remove(item);
-            DataContext.SaveChanges();
+            repositorio.Remove(item);
+            dataContext.SaveChanges();
             return Ok();
         }
     }
