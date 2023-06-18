@@ -1,7 +1,7 @@
 ﻿namespace backend.ViewModel.Funcionario
 {
-    public class FuncionarioViewModelResponse
+    public class FuncionarioViewModelResponse : Mdl.Funcionario
     {
-        public long Id { get; set; }
+
     }
 }
