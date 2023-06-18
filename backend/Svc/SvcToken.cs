@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using backend.Mdl;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -8,7 +9,7 @@ namespace backend.Svc
 {
     public class SvcToken
     {
-        public static string GerarToken(IdentityUser usuario)
+        public static string GerarToken(Usuario usuario)
         {
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
             byte[] key = Encoding.ASCII.GetBytes(SvcAppSettings.GetJwtTokenKey());
@@ -28,7 +29,7 @@ namespace backend.Svc
             return tokenHandler.WriteToken(token);
         }
 
-        public static string GerarRefreshToken(IdentityUser usuario)
+        public static string GerarRefreshToken(Usuario usuario)
         {
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
             byte[] key = Encoding.ASCII.GetBytes(SvcAppSettings.GetJwtTokenKey());
