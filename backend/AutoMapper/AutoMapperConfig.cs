@@ -10,14 +10,15 @@ namespace backend.AutoMapper
     {
         public AutoMapperConfig()
         {
-            CreateMap<Usuario, UsuarioResponseViewModel>()
-                .ForMember(dest => dest.Nome, src => src.MapFrom(u => u.UserName));
-
             CreateMap<UsuarioRequestViewModel, Usuario>()
                 .ForMember(dest => dest.UserName, u => u.MapFrom(u => u.Nome));
 
-            CreateMap<Funcionario, FuncionarioViewModelRequest>();
-            CreateMap<FuncionarioViewModelResponse, Funcionario>();
+            CreateMap<Usuario, UsuarioResponseViewModel>()
+                .ForMember(dest => dest.Nome, src => src.MapFrom(u => u.UserName));
+
+
+            CreateMap<FuncionarioViewModelRequest, Funcionario>();
+            CreateMap<Funcionario, FuncionarioViewModelResponse>();
         }
     }
 }
