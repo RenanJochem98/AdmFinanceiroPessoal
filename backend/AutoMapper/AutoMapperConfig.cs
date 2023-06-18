@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
-using backend.Dto;
-using backend.ViewModel;
+using backend.Mdl;
+using backend.ViewModel.Funcionario;
+using backend.ViewModel.Usuario;
 using Microsoft.AspNetCore.Identity;
 
 namespace backend.AutoMapper
@@ -9,11 +10,14 @@ namespace backend.AutoMapper
     {
         public AutoMapperConfig()
         {
-            CreateMap<IdentityUser, UsuarioResponseViewModel>()
+            CreateMap<Usuario, UsuarioResponseViewModel>()
                 .ForMember(dest => dest.Nome, src => src.MapFrom(u => u.UserName));
 
-            CreateMap<UsuarioRequestViewModel, IdentityUser>()
+            CreateMap<UsuarioRequestViewModel, Usuario>()
                 .ForMember(dest => dest.UserName, u => u.MapFrom(u => u.Nome));
+
+            CreateMap<Funcionario, FuncionarioViewModelRequest>();
+            CreateMap<FuncionarioViewModelResponse, Funcionario>();
         }
     }
 }
