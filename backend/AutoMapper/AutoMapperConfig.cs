@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using backend.Mdl;
+using backend.ViewModel.ContaBancaria;
 using backend.ViewModel.Funcionario;
 using backend.ViewModel.Usuario;
 using Microsoft.AspNetCore.Identity;
@@ -19,6 +20,9 @@ namespace backend.AutoMapper
 
             CreateMap<FuncionarioViewModelRequest, Funcionario>();
             CreateMap<Funcionario, FuncionarioViewModelResponse>();
+
+            CreateMap<ContaBancariaViewModelRequest, ContaBancaria>();
+            CreateMap<ContaBancaria, ContaBancariaViewModelResponse>();
         }
     }
 }

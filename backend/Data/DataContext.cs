@@ -18,7 +18,7 @@ namespace backend.Data
 
         public DbSet<Funcionario> Funcionarios { get; set; }
         public DbSet<ContaBancaria> ContasBancarias { get; set; }
-        public DbSet<ContaBancaria> ValoresContaBancaria { get; set; }
+        public DbSet<ValorContaBancaria> ValoresContaBancaria { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
