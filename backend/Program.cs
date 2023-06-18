@@ -35,7 +35,7 @@ builder.Services.AddEntityFrameworkNpgsql()
 
 builder.Services.AddAutoMapper(typeof(AutoMapperConfig));
 
-builder.Services.AddIdentity<Usuario, CustomRole >(
+builder.Services.AddIdentity<Usuario, IdentityRole<long>>(
     options =>
     {
         options.SignIn.RequireConfirmedAccount = true;

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace backend.Data
 {
-    public class DataContext : IdentityDbContext<Usuario, CustomRole, long>
+    public class DataContext : IdentityDbContext<Usuario, IdentityRole<long>, long>
     {
         public DataContext() { }
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
