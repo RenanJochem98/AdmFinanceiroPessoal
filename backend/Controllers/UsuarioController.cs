@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
 using backend.Data;
-using backend.Dto;
 using backend.Mdl;
 using backend.Svc;
-using backend.ViewModel;
+using backend.ViewModel.Usuario;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -18,31 +17,32 @@ namespace backend.Controllers
     /// </summary>
     [ApiController, Authorize]
     [Route("[controller]")]
-    public class UsuarioController : GenericController<Usuario>
+    public class UsuarioController : GenericController<UsuarioRequestViewModel, UsuarioResponseViewModel, Usuario>
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<Usuario> _userManager;
         private readonly IMapper mapper;
         public override DbSet<Usuario> Repositorio => DataContext.Users;
 
-        public UsuarioController(UserManager<IdentityUser> userManger, IMapper mapper)
+        public UsuarioController(UserManager<Usuario> userManger, IMapper mapper) : base(mapper)
         {
             _userManager = userManger;
-            this.mapper = mapper;
         }
 
 
-        [HttpPost(Name = "Usuario"), AllowAnonymous]
+
+        [AllowAnonymous]
+        [HttpPost("/[controller]/async")]
         public async Task<IActionResult> Create(UsuarioRequestViewModel usuario)
         {
             try
             {
-                IdentityUser? usuarioJaExistente = await _userManager.FindByEmailAsync(_userManager.NormalizeEmail(usuario.Email));
+                Usuario? usuarioJaExistente = await _userManager.FindByEmailAsync(_userManager.NormalizeEmail(usuario.Email));
                 if (usuarioJaExistente != null)
                 {
                     return BadRequest("Já existe um usuário com esse email.");
                 }
 
-                var validadorSenha = new PasswordValidator<IdentityUser>();
+                var validadorSenha = new PasswordValidator<Usuario>();
                 var resultadoValidacaoSenha = await validadorSenha.ValidateAsync(_userManager, null, usuario.Senha);
 
                 if (!resultadoValidacaoSenha.Succeeded)
@@ -52,23 +52,12 @@ namespace backend.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    IdentityUser novoUsuario = mapper.Map<IdentityUser>(usuario);
-                    //IdentityUser novoUsuario = new IdentityUser()
-                    //{
-                    //    UserName = usuario.Nome,
-                    //    Email = usuario.Email,
-                    //};
+                    Usuario novoUsuario = mapper.Map<Usuario>(usuario);
 
                     IdentityResult resultado = await _userManager.CreateAsync(novoUsuario, usuario.Senha);
                     if (resultado.Succeeded)
                     {
                         UsuarioResponseViewModel resposta = mapper.Map<UsuarioResponseViewModel>(novoUsuario);
-                        //UsuarioResponseViewModel resposta = new UsuarioResponseViewModel()
-                        //{
-                        //    Id = novoUsuario.Id,
-                        //    Nome = novoUsuario.UserName,
-                        //    Email = novoUsuario.Email
-                        //};
                         return Ok(resposta);
 
                     }
@@ -85,7 +74,7 @@ namespace backend.Controllers
         [HttpPost("login"), AllowAnonymous]
         public async Task<IActionResult> Login(UsuarioLoginRequestViewModel usuarioLogin)
         {
-            IdentityUser? usuario = await _userManager.FindByEmailAsync(_userManager.NormalizeEmail(usuarioLogin.Email));
+            Usuario? usuario = await _userManager.FindByEmailAsync(_userManager.NormalizeEmail(usuarioLogin.Email));
             if (usuario == null)
             {
                 return NotFound();
