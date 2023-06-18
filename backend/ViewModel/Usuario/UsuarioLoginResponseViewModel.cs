@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace backend.ViewModel
+namespace backend.ViewModel.Usuario
 {
     public class UsuarioLoginResponseViewModel
     {

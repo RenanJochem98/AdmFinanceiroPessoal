@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace backend.ViewModel
+namespace backend.ViewModel.Usuario
 {
     public class UsuarioLoginRequestViewModel
     {
