@@ -51,7 +51,7 @@ namespace backend.Controllers
             TModel modelo = mapper.Map<TModel>(item);
             repositorio.Add(modelo);
             this.dataContext.SaveChanges();
-            return Ok(mapper.Map<TViewModelResponse>(item));
+            return Ok(mapper.Map<TViewModelResponse>(modelo));
         }
 
         [HttpPut()]
@@ -61,7 +61,7 @@ namespace backend.Controllers
             TModel modelo = mapper.Map<TModel>(item);
             repositorio.Update(modelo);
             this.dataContext.SaveChanges();
-            return Ok(mapper.Map<TViewModelResponse>(item));
+            return Ok(mapper.Map<TViewModelResponse>(modelo));
         }
 
         [HttpDelete("{id}")]
