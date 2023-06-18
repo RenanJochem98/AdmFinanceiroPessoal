@@ -7,6 +7,7 @@ using backend.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Net;
 using System.Net.Http;
 
@@ -17,15 +18,18 @@ namespace backend.Controllers
     /// </summary>
     [ApiController, Authorize]
     [Route("[controller]")]
-    public class UsuarioController : Controller
+    public class UsuarioController : GenericController<Usuario>
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IMapper mapper;
+        public override DbSet<Usuario> Repositorio => DataContext.Users;
+
         public UsuarioController(UserManager<IdentityUser> userManger, IMapper mapper)
         {
             _userManager = userManger;
             this.mapper = mapper;
         }
+
 
         [HttpPost(Name = "Usuario"), AllowAnonymous]
         public async Task<IActionResult> Create(UsuarioRequestViewModel usuario)
