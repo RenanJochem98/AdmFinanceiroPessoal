@@ -1,0 +1,23 @@
+Cor Primária: #00265c
+Essa cor azul profunda pode ser usada como a cor principal para elementos de destaque, como cabeçalhos, 
+botões principais ou áreas de foco.
+
+Cor Secundária: #0090ff
+Essa cor azul mais clara pode ser utilizada para realçar elementos secundários, como links, ícones 
+ou barra de navegação.
+
+Cor de Destaque: #00bf6f
+Essa cor verde pode ser usada para destacar informações positivas, como saldo positivo, economias ou 
+metas alcançadas.
+
+Cor de Aviso: #ffc107
+Essa cor amarela pode ser usada para indicar avisos ou informações importantes, como alertas de 
+gastos excessivos, limite de crédito próximo ou notificações relevantes.
+
+Cor de Perigo: #ff4f42
+Essa cor vermelha mais vibrante pode ser usada para indicar informações críticas, como saldo 
+negativo, gastos não autorizados ou problemas financeiros.
+
+Cor de Destaque Secundária: #fa8c16
+Essa cor laranja pode ser utilizada como uma cor de destaque secundária para elementos adicionais, 
+como gráficos, ícones ou seções específicas.

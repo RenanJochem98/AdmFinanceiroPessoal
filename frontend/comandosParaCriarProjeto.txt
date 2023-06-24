@@ -7,6 +7,9 @@ docker run -it admfinanceiropessoal-frontend /bin/sh
 # Comando para criar projeto
 npx create-react-app frontend --use-npm
 
+npm init vite@latest frontend --template react-ts
+(Usar SWC)
+
 #NOVO TERMINAL
 docker ps
 docker cp [container-id]:/app/frontend/. ./frontend
