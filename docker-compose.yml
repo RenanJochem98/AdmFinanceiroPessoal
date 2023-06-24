@@ -1,0 +1,29 @@
+version: '3.4'
+
+services:
+  #backend:
+  #  image: ${DOCKER_REGISTRY-}backend
+  #  build:
+  #    context: .
+  #    dockerfile: Dockerfile
+  frontend:
+    container_name: frontend_container
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+    - ./frontend:/app
+    ports:
+      - 3000:3000
+  # db:
+  #   container_name: "db_container"
+  #   image: postgres:15
+  #   #restart: always
+  #   ports:
+  #     - 5432:5432
+  #   volumes:
+  #     - ./docker/db/pgdata:/var/lib/postgresql/data
+  #   environment:
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_PASSWORD: postgres
+  #     POSTGRES_DB: postgres

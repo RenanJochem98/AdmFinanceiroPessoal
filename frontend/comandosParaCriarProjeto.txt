@@ -1,0 +1,12 @@
+#Lembrar de comentar partes que precisam do react no dockerfile
+
+docker run -it admfinanceiropessoal-frontend /bin/sh
+# -it sserve para que container não termine ao final do Dockerfile, possibilitando usar o terminal
+# /bin/sh dix o terminal que será usad
+
+# Comando para criar projeto
+npx create-react-app frontend --use-npm
+
+#NOVO TERMINAL
+docker ps
+docker cp [container-id]:/app/frontend/. ./frontend
