@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
+using System.Threading;
 
 namespace backend.Controllers
 {
@@ -28,10 +29,10 @@ namespace backend.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> Get(int id, CancellationToken cancellationToken = default)
         {
-            TModel? item = repositorio.AsQueryable()
-                .SingleOrDefault(i => i.Id.Equals(id));
+            TModel? item = await repositorio.AsQueryable()
+                .SingleOrDefaultAsync(i => i.Id.Equals(id), cancellationToken);
 
             return item == null ?
                 NotFound() :
@@ -39,43 +40,43 @@ namespace backend.Controllers
         }
 
         [HttpGet()]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
             //Como adicionar parametros para executar condições de busca?
-            return Ok(mapper.Map<IEnumerable<TViewModelResponse>>(repositorio.AsQueryable().AsEnumerable()));
+            return Ok(mapper.Map<IEnumerable<TViewModelResponse>>(repositorio.AsAsyncEnumerable()));
         }
 
         [HttpPost()]
-        public virtual IActionResult Create(TViewModelRequest item)
+        public virtual async Task<IActionResult> Create(TViewModelRequest item, CancellationToken cancellationToken = default)
         {
             TModel modelo = mapper.Map<TModel>(item);
-            repositorio.Add(modelo);
-            this.dataContext.SaveChanges();
+            await repositorio.AddAsync(modelo, cancellationToken);
+            await this.dataContext.SaveChangesAsync(cancellationToken);
             return Ok(mapper.Map<TViewModelResponse>(modelo));
         }
 
         [HttpPut()]
-        public IActionResult Put(TModel item)
+        public async Task<IActionResult> Put(TModel item, CancellationToken cancellationToken = default)
         {
             //Como alterar apenas os campos enviados
             TModel modelo = mapper.Map<TModel>(item);
             repositorio.Update(modelo);
-            this.dataContext.SaveChanges();
+            await this.dataContext.SaveChangesAsync(cancellationToken);
             return Ok(mapper.Map<TViewModelResponse>(modelo));
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken = default)
         {
-            TModel? item = repositorio.AsQueryable()
-               .SingleOrDefault(i => i.Id.Equals(id));
+            TModel? item = await repositorio.AsQueryable()
+               .SingleOrDefaultAsync(i => i.Id.Equals(id), cancellationToken);
             if (item == null)
             {
                 return NotFound();
             }
 
             repositorio.Remove(item);
-            dataContext.SaveChanges();
+            await dataContext.SaveChangesAsync(cancellationToken);
             return Ok();
         }
     }

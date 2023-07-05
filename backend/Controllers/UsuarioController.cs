@@ -29,8 +29,7 @@ namespace backend.Controllers
 
 
         [AllowAnonymous]
-        [HttpPost("/[controller]/async")]
-        public async Task<IActionResult> Create(UsuarioRequestViewModel usuario)
+        public async override Task<IActionResult> Create(UsuarioRequestViewModel usuario, CancellationToken cancellationToken = default)
         {
             try
             {
