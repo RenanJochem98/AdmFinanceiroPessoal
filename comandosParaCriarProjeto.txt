@@ -14,3 +14,6 @@ npm init vite@latest frontend --template react-ts
 #NOVO TERMINAL
 docker ps
 docker cp [container-id]:/app/frontend/. ./frontend
+
+#Iniciar tailwindcss
+npx tailwindcss -i ./src/App.css -o ./dist/output.css --watch
