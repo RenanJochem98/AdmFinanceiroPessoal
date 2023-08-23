@@ -1,4 +1,4 @@
-import { BarChart, Bar, Tooltip, XAxis, Legend, YAxis } from 'recharts'
+import { BarChart, Bar, Tooltip, XAxis, /*Legend,*/ YAxis } from 'recharts'
 
 // interface IValueOnDate {
 //     value: DoubleRange,
