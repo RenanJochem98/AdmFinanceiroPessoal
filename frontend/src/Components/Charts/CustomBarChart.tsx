@@ -1,18 +1,6 @@
 import { BarChart, Bar, Tooltip, XAxis, /*Legend,*/ YAxis } from 'recharts'
-
-// interface IValueOnDate {
-//     value: DoubleRange,
-//     date: Date
-// }
-
-interface IAccount {
-    name: string
-    value: number,
-    date: string,
-    color: string
-}
-
-
+import { IAccount } from '../../types/IAccount'
+// {accounts}:{accounts:IAccount[]}
 export default function CustomBarChart({accounts}:{accounts:IAccount[]}) {
     const currentColor = accounts[0].color
     return (

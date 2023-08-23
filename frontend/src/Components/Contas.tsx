@@ -2,6 +2,7 @@
 //https://recharts.org/en-US/api/BarChart
 
 import CustomBarChart from "./Charts/CustomBarChart"
+import {IAccount} from "../types/IAccount"
 
 
 export default function Contas() {
@@ -44,7 +45,7 @@ export default function Contas() {
     //         cor: v.cor
     //     } 
     // })
-    const lista2 = [
+    const lista2:IAccount[] = [
         {
             name: "Mercado Livre",
             value: 13.00,
