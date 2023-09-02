@@ -1,6 +1,5 @@
 // import * as React from "react"
 
-import CloseButton from "./Buttons/CloseButton"
 // import X_CloseButton from "./Buttons/X_CloseButton"
 
 interface IModalProps {
@@ -8,9 +7,10 @@ interface IModalProps {
     setModalOpen: () => void,
     title?: string,
     children?: string | JSX.Element
+    buttons?: JSX.Element
 }
 
-export default function Modal({isOpen, setModalOpen, title, children }: IModalProps) {
+export default function Modal({isOpen, title, children, buttons }: IModalProps) {
     const backgroundStyles : React.CSSProperties = {
         position: 'fixed',
         top: '0',
@@ -47,7 +47,8 @@ export default function Modal({isOpen, setModalOpen, title, children }: IModalPr
                     </div>
                     {/* Footer */}
                     <div className="flex items-center justify-between pt-6 space-x-2">
-                        <CloseButton onClick={setModalOpen}/>
+                        {/* <CloseButton onClick={setModalOpen}/> */}
+                        {buttons}
                     </div>
                 </div>
                 

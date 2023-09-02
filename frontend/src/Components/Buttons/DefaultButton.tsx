@@ -13,7 +13,7 @@ export default function DefaultButton( {text, color, onClick}: DefaultButtonProp
         <>
             <button
                 type="button"
-                className={'mx-auto font-bold  p-2 rounded-md ' + defaultColor}
+                className= {'mx-auto font-bold  p-2 rounded-md ' + defaultColor}
                 onClick={onClick} >
                     {text}
             </button>

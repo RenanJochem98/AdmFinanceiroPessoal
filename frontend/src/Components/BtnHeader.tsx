@@ -1,7 +1,9 @@
 import * as React from "react"
+import CloseButton from "./Buttons/CloseButton"
+import ConfirmButton from "./Buttons/ConfirmButton"
 import InputDate from "./Inputs/InputDate"
 import InputNumber from "./Inputs/InputNumber"
-import Modal from "./Modal"
+import Modal from "./Modal/Modal"
 import Select from "./Select"
 
 interface BtnHeaderProps {
@@ -20,7 +22,15 @@ export default function BtnHeader( {texto}: BtnHeaderProps ) {
                 onClick={() => setIsOpen(!isOpen)} >
                     {texto}
             </button>
-            <Modal isOpen={isOpen} setModalOpen={() => setIsOpen(!isOpen)} title="Adicionar Entrada">
+            <Modal isOpen={isOpen} setModalOpen={() => setIsOpen(!isOpen)} 
+            title="Adicionar Entrada" 
+            buttons={
+                <>
+                    <ConfirmButton onClick={() => setIsOpen(!isOpen)} />
+                    <CloseButton onClick={() => setIsOpen(!isOpen)} />
+                </>
+            }
+            >
                 <div className="flex items-center p-5">
                     {/* <div className="text-center">Terste</div> */}
                     <form>
