@@ -17,7 +17,9 @@ export default function BtnHeader( {texto}: BtnHeaderProps ) {
                 onClick={() => setIsOpen(!isOpen)} >
                     {texto}
             </button>
-            <Modal isOpen={isOpen} setModalOpen={() => setIsOpen(!isOpen)}/>
+            <Modal isOpen={isOpen} setModalOpen={() => setIsOpen(!isOpen)} title="Adicionar Entrada">
+                <div className="text-center">Terste</div>
+            </Modal>
         </>
         
     )

@@ -1,13 +1,16 @@
 // import * as React from "react"
 
 import CloseButton from "./Buttons/CloseButton"
+// import X_CloseButton from "./Buttons/X_CloseButton"
 
-interface ModalProps {
+interface IModalProps {
     isOpen: boolean,
-    setModalOpen: () => void
+    setModalOpen: () => void,
+    title?: string,
+    children?: string | JSX.Element
 }
 
-export default function Modal({isOpen, setModalOpen }:ModalProps) {
+export default function Modal({isOpen, setModalOpen, title, children }: IModalProps) {
     const backgroundStyles : React.CSSProperties = {
         position: 'fixed',
         top: '0',
@@ -23,10 +26,11 @@ export default function Modal({isOpen, setModalOpen }:ModalProps) {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%,-50%)',
-        padding: '150px',
+        padding: '15px',
         backgroundColor: '#fff',
         borderRadius: '10px',
-        color: '#000'
+        color: '#000',
+        boxShadow: '.5rem 5px 5px rgb(0,0,0,0.3)'
     }
 
     return isOpen ? 
@@ -34,19 +38,20 @@ export default function Modal({isOpen, setModalOpen }:ModalProps) {
             <div style={backgroundStyles}>
                 <div style={modalStyles}>
                     {/* Header */}
-                    <div>
-
+                    <div className="top-0 pb-3 text-center">
+                        <p className="font-bold">{title}</p>
+                        {/* <X_CloseButton onClick={setModalOpen}/> */}
                     </div>
                     <div>
-                        Um Dialog aqui
+                        {children}
                     </div>
                     {/* Footer */}
-                    <div>
+                    <div className="flex items-center justify-between pt-6 space-x-2">
                         <CloseButton onClick={setModalOpen}/>
                     </div>
                 </div>
                 
             </div>
         </>
-    : null
+    : <></>
 }
