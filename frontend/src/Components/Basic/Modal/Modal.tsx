@@ -1,5 +1,8 @@
 // import * as React from "react"
 
+import { ReactNode } from "react"
+import X_CloseButton from "../Buttons/X_CloseButton"
+
 // import X_CloseButton from "./Buttons/X_CloseButton"
 
 interface IModalProps {
@@ -7,10 +10,10 @@ interface IModalProps {
     setModalOpen: () => void,
     title?: string,
     children?: string | JSX.Element
-    buttons?: JSX.Element
+    buttons?: ReactNode | Array<ReactNode>
 }
 
-export default function Modal({isOpen, title, children, buttons }: IModalProps) {
+export default function Modal({isOpen, title, children, setModalOpen }: IModalProps) {
     const backgroundStyles : React.CSSProperties = {
         position: 'fixed',
         top: '0',
@@ -38,18 +41,21 @@ export default function Modal({isOpen, title, children, buttons }: IModalProps) 
             <div style={backgroundStyles}>
                 <div style={modalStyles}>
                     {/* Header */}
-                    <div className="top-0 pb-3 text-center">
-                        <p className="font-bold">{title}</p>
-                        {/* <X_CloseButton onClick={setModalOpen}/> */}
+                    <div className="text-center justify-between top-0 pb-3 relative">
+                        <div>
+                            <p className="font-bold">{title}</p>
+                        </div>
+                        
+                        <X_CloseButton onClick={setModalOpen}/>
                     </div>
                     <div>
                         {children}
                     </div>
                     {/* Footer */}
-                    <div className="flex items-center justify-between pt-6 space-x-2">
+                    {/* <div className="flex items-center justify-between pt-6 space-x-2"> */}
                         {/* <CloseButton onClick={setModalOpen}/> */}
-                        {buttons}
-                    </div>
+                        {/* {buttons} */}
+                    {/* </div> */}
                 </div>
                 
             </div>
