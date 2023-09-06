@@ -11,7 +11,7 @@ export default function Selec({ placeholder, options}: ISelectProps){
     return (
         <>
             <select className="w-full border-b-2 my-2">
-                <option value="" disabled selected>{placeholder}</option>
+                <option value="" >{placeholder}</option>
                 {options.map(opt =>{
                     return <option value={opt.value}>{opt.text}</option>
                 })}
