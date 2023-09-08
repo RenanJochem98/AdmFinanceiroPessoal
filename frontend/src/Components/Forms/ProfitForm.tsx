@@ -5,7 +5,7 @@ import Select from "../Basic/Select";
 
 export default function ProfitForm(){
     return (
-        <div className="flex items-center p-5">
+        <div className="flex flex-col p-5 items-center text-center">
                     {/* <div className="text-center">Terste</div> */}
                     <form>
                         <InputNumber placeholder="Valor"/>
@@ -16,7 +16,7 @@ export default function ProfitForm(){
                             {text: "BTG Banco", value: 3},
                             {text: "BTG Corretora", value: 4},
                         ]}/>
-                        <ConfirmButton onClick={() =>console.log("Click")} />
+                        <ConfirmButton className="mt-2 justify-center" onClick={() =>alert("Click")} />
                     </form>
                 </div>
     )

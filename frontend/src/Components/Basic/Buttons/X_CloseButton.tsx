@@ -1,16 +1,16 @@
+import { IDefaultButton } from "../../../types/IDefaultButton"
 import DefaultButton from "./DefaultButton"
 
-interface CloseButtonProps {
-    onClick: () => void
+interface CloseButtonProps extends IDefaultButton {
 }
 
-export default function X_CloseButton( {onClick}: CloseButtonProps ) {
+export default function X_CloseButton( {...rest}: CloseButtonProps ) {
     
     return (
         <DefaultButton 
+            {...rest}
             text="X" 
-            color="bg-red-500 hover:bg-red-800 text-white absolute right-1 top-0" 
-            onClick={onClick}
+            className="bg-red-500 hover:bg-red-800 text-white absolute right-1 top-0" 
         />
     )
 }
