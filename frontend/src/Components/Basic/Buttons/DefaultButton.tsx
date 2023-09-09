@@ -16,7 +16,7 @@ export default function DefaultButton( { ...rest}: IDefaultButton ) {
         <>
             <button
                 {...rest}
-                type="button"
+                type={rest.type == null ? 'button' : rest.type} 
                 className= {'mx-auto font-bold  px-2 py-1 rounded-md ' + defaultClassName} >
                     {rest.text}
             </button>
